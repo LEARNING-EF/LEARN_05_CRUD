@@ -261,7 +261,7 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 				// Note: Not Recommended!
 
-				//Models.User oUser =
+				//Models.User user =
 				//	databaseContext.Users
 				//	.FirstOrDefault(current => string.Compare(current.Username, "Dariush", true) == 0);
 				// **************************************************
