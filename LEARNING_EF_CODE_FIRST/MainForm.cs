@@ -16,7 +16,7 @@ namespace LEARNING_EF_CODE_FIRST
 		/// <summary>
 		/// Create
 		/// </summary>
-		private void Register()
+		private void RegisterButton_Click(object sender, System.EventArgs e)
 		{
 			Models.DatabaseContext databaseContext = null;
 
@@ -25,15 +25,43 @@ namespace LEARNING_EF_CODE_FIRST
 				databaseContext =
 					new Models.DatabaseContext();
 
-				Models.User newUser = new Models.User();
+				// **************************************************
+				//Models.User newUser = new Models.User();
 
-				newUser.Username = "Dariush";
-				newUser.Password = "1234512345";
-				newUser.EmailAddress = "DariushT@GMail.com";
+				//newUser.Age = 30,
+				//newUser.Username = "Dariush";
+				//newUser.Password = "1234512345";
+				//newUser.EmailAddress = "DariushT@GMail.com";
+				// **************************************************
 
-				//newUser.Username = usernameTextBox.Text;
-				//newUser.Password = passwordTextBox.Text;
-				//newUser.EmailAddress = emailAddressTextBox.Text;
+				// **************************************************
+				//Models.User newUser = new Models.User
+				//{
+				//	Age = 30,
+				//	Username = "Dariush",
+				//	Password = "1234512345",
+				//	EmailAddress = "DariushT@GMail.com"
+				//};
+				// **************************************************
+
+				// **************************************************
+				Models.User newUser = new Models.User
+				{
+					Age = 30,
+					Username = "Dariush",
+					Password = "1234512345",
+					EmailAddress = "DariushT@GMail.com",
+				};
+				// **************************************************
+
+				// **************************************************
+				//Models.User newUser = new Models.User
+				//{
+				//	Username = usernameTextBox.Text,
+				//	Password = passwordTextBox.Text,
+				//	EmailAddress = emailAddressTextBox.Text,
+				//};
+				// **************************************************
 
 				databaseContext.Users.Add(newUser);
 
@@ -48,7 +76,7 @@ namespace LEARNING_EF_CODE_FIRST
 				if (databaseContext != null)
 				{
 					databaseContext.Dispose();
-					databaseContext = null;
+					//databaseContext = null;
 				}
 			}
 		}
@@ -57,7 +85,7 @@ namespace LEARNING_EF_CODE_FIRST
 		/// Retrieve:
 		/// Zero or Many
 		/// </summary>
-		private void GetUsers()
+		private void GetUsersButton_Click(object sender, System.EventArgs e)
 		{
 			Models.DatabaseContext databaseContext = null;
 
@@ -67,8 +95,9 @@ namespace LEARNING_EF_CODE_FIRST
 					new Models.DatabaseContext();
 
 				// **************************************************
-				//var users =
-				//	databaseContext.Users.ToList();
+				// ToList() -> using System.Linq;
+
+				//var users = databaseContext.Users.ToList();
 
 				// "SELECT * FROM Users"
 				// **************************************************
@@ -196,6 +225,18 @@ namespace LEARNING_EF_CODE_FIRST
 				// "SELECT * FROM Users WHERE Age > 20 ORDER BY FullName"
 				// "SELECT * FROM Users WHERE Age > 20 ORDER BY FullName ASC"
 				// **************************************************
+
+				// **************************************************
+				//usersListBox.DataSource = users;
+				//usersListBox.ValueMember = "Id";
+				//usersListBox.DisplayMember = "Username";
+				// **************************************************
+
+				// **************************************************
+				usersListBox.DataSource = users;
+				usersListBox.ValueMember = nameof(Models.User.Id);
+				usersListBox.DisplayMember = nameof(Models.User.Username);
+				// **************************************************
 			}
 			catch (System.Exception ex)
 			{
@@ -215,7 +256,7 @@ namespace LEARNING_EF_CODE_FIRST
 		/// Retrieve:
 		/// Zero or One
 		/// </summary>
-		private void Login()
+		private void LoginButton_Click(object sender, System.EventArgs e)
 		{
 			Models.DatabaseContext databaseContext = null;
 
@@ -291,14 +332,17 @@ namespace LEARNING_EF_CODE_FIRST
 							errorMessage =
 								"You can not login at this time! Please contant support...";
 						}
-						else
-						{
-							// ...
-						}
 					}
 				}
 
-				System.Windows.Forms.MessageBox.Show(errorMessage);
+				if (string.IsNullOrWhiteSpace(errorMessage))
+				{
+					System.Windows.Forms.MessageBox.Show($"Welcome { user.Username }!");
+				}
+				else
+				{
+					System.Windows.Forms.MessageBox.Show(errorMessage);
+				}
 			}
 			catch (System.Exception ex)
 			{
@@ -317,7 +361,7 @@ namespace LEARNING_EF_CODE_FIRST
 		/// <summary>
 		/// Update
 		/// </summary>
-		private void UpdateProfile()
+		private void UpdateButton_Click(object sender, System.EventArgs e)
 		{
 			Models.DatabaseContext databaseContext = null;
 
@@ -326,34 +370,28 @@ namespace LEARNING_EF_CODE_FIRST
 				databaseContext =
 					new Models.DatabaseContext();
 
-				// ASP.NET Web Form [OR] ASP.NET MVC: Session["UserId"]
-				// Windows Form Application [OR] WPF: Infrastructure.Utility.AuthenticatedUser.UserId
-				System.Guid userId = System.Guid.NewGuid();
+				string username = "Dariush";
 
 				Models.User user =
 					databaseContext.Users
-					.Where(current => current.Id == userId)
+					.Where(current => string.Compare(current.Username, username, true) == 0)
 					.FirstOrDefault();
 
 				if (user == null)
 				{
 					string errorMessage =
-						"Your information has been deleted!";
+						$"There is not any user with this username [{ username }] for updating!";
 
 					System.Windows.Forms.MessageBox.Show(errorMessage);
-
-					System.Windows.Forms.Application.Exit();
 
 					return;
 				}
 
-				user.Age = 42;
-				user.FullName = "Mr. Dariush Tasdighi";
-
-				//user.Age = ageTextBox.Text;
-				//user.FullName = fullNameTextBox.Text;
+				user.IsActive = !user.IsActive;
 
 				databaseContext.SaveChanges();
+
+				System.Windows.Forms.MessageBox.Show("User updated successfully...");
 			}
 			catch (System.Exception ex)
 			{
@@ -372,7 +410,7 @@ namespace LEARNING_EF_CODE_FIRST
 		/// <summary>
 		/// Delete
 		/// </summary>
-		private void DeleteUser()
+		private void DeleteButton_Click(object sender, System.EventArgs e)
 		{
 			Models.DatabaseContext databaseContext = null;
 
@@ -381,15 +419,17 @@ namespace LEARNING_EF_CODE_FIRST
 				databaseContext =
 					new Models.DatabaseContext();
 
+				string username = "Dariush";
+
 				Models.User user =
 					databaseContext.Users
-					.Where(current => string.Compare(current.Username, "Dariush", true) == 0)
+					.Where(current => string.Compare(current.Username, username, true) == 0)
 					.FirstOrDefault();
 
 				if (user == null)
 				{
 					string errorMessage =
-						"There is not any user with this username for deleting!";
+						$"There is not any user with this username [{ username }] for deleting!";
 
 					System.Windows.Forms.MessageBox.Show(errorMessage);
 
@@ -399,6 +439,8 @@ namespace LEARNING_EF_CODE_FIRST
 				databaseContext.Users.Remove(user);
 
 				databaseContext.SaveChanges();
+
+				System.Windows.Forms.MessageBox.Show("User deleted successfully...");
 			}
 			catch (System.Exception ex)
 			{
