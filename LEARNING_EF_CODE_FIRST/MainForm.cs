@@ -35,6 +35,16 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 
 				// **************************************************
+				//Models.User newUser = new Models.User()
+				//{
+				//	Age = 30,
+				//	Username = "Dariush",
+				//	Password = "1234512345",
+				//	EmailAddress = "DariushT@GMail.com"
+				//};
+				// **************************************************
+
+				// **************************************************
 				//Models.User newUser = new Models.User
 				//{
 				//	Age = 30,
@@ -148,11 +158,11 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 
 				// **************************************************
-				//var users =
-				//	databaseContext.Users
-				//	.OrderBy(current => current.FullName)
-				//	.ToList()
-				//	;
+				var users =
+					databaseContext.Users
+					.OrderBy(current => current.FullName)
+					.ToList()
+					;
 
 				// "SELECT * FROM Users ORDER BY FullName"
 				// "SELECT * FROM Users ORDER BY FullName ASC"
@@ -215,12 +225,12 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 
 				// **************************************************
-				var users =
-					databaseContext.Users
-					.Where(current => current.Age > 20)
-					.OrderBy(current => current.FullName)
-					.ToList()
-					;
+				//var users =
+				//	databaseContext.Users
+				//	.Where(current => current.Age > 20)
+				//	.OrderBy(current => current.FullName)
+				//	.ToList()
+				//	;
 
 				// "SELECT * FROM Users WHERE Age > 20 ORDER BY FullName"
 				// "SELECT * FROM Users WHERE Age > 20 ORDER BY FullName ASC"
@@ -293,9 +303,16 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 
 				// **************************************************
+				//Models.User user =
+				//	databaseContext.Users
+				//	.Where(current => string.Compare(current.Username, "Dariush", true) == 0)
+				//	.FirstOrDefault();
+				// **************************************************
+
+				// **************************************************
 				Models.User user =
 					databaseContext.Users
-					.Where(current => string.Compare(current.Username, "Dariush", true) == 0)
+					.Where(current => current.Username.ToLower() == "Dariush".ToLower())
 					.FirstOrDefault();
 				// **************************************************
 
@@ -304,7 +321,7 @@ namespace LEARNING_EF_CODE_FIRST
 
 				//Models.User user =
 				//	databaseContext.Users
-				//	.FirstOrDefault(current => string.Compare(current.Username, "Dariush", true) == 0);
+				//	.FirstOrDefault(current => current.Username.ToLower() == "Dariush".ToLower());
 				// **************************************************
 
 				string errorMessage = string.Empty;
@@ -374,7 +391,7 @@ namespace LEARNING_EF_CODE_FIRST
 
 				Models.User user =
 					databaseContext.Users
-					.Where(current => string.Compare(current.Username, username, true) == 0)
+					.Where(current => current.Username.ToLower() == username.ToLower())
 					.FirstOrDefault();
 
 				if (user == null)
@@ -423,7 +440,7 @@ namespace LEARNING_EF_CODE_FIRST
 
 				Models.User user =
 					databaseContext.Users
-					.Where(current => string.Compare(current.Username, username, true) == 0)
+					.Where(current => current.Username.ToLower() == username.ToLower())
 					.FirstOrDefault();
 
 				if (user == null)
