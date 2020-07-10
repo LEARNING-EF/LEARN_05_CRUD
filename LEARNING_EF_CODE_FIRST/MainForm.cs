@@ -143,14 +143,14 @@ namespace LEARNING_EF_CODE_FIRST
 				// **************************************************
 				//var users =
 				//	databaseContext.Users
-				//	.Where(current => current.Age > 20)
-				//	.Where(current => current.Age < 30)
+				//	.Where(current => current.Age > 20 && current.Age < 30)
 				//	.ToList()
 				//	;
 
 				//var users =
 				//	databaseContext.Users
-				//	.Where(current => current.Age > 20 && current.Age < 30)
+				//	.Where(current => current.Age > 20)
+				//	.Where(current => current.Age < 30)
 				//	.ToList()
 				//	;
 
